@@ -11,6 +11,7 @@ class Todo(models.Model):
     
     def __str__(self):
         return self.title
-class User(models.Model):
-    username= models.OneToOneField(User, on_delete=models.CASCADE)
-    password= models.CharField(max_length=10)
+class Profile(models.Model):
+    user= models.OneToOneField(User, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.user
