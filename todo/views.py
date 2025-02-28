@@ -49,6 +49,32 @@ class TodoView(APIView):
 
             except Exception as e:
                 return Response({'error', str(e)}, status= status.HTTP_500_INTERNAL_SERVER_ERROR)
+    
+    #to get single todo
 
+class SingleTodoView(APIView): 
+    def get(self,request,*args, **kwargs):
+        todo_id= kwargs.get('id')
+        try:
+            todo= Todo.objects.get(id=todo_id)
+            serializers= TodoSerializer(todo)
+            return Response(serializers.data, status=status.HTTP_200_OK)
+        
+        except Exception as e:
+            return Response({'error': str(e)}, status= status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class RegistrationView(APIView):
+    def post(self,request):
+        try:
+           
+           serializer= RegistrationSerializer(data=request.data)
+           if serializer.is_valid():
+               serializer.save()
+               return Response(serializers.data, status=status.HTTP_201_CREATED)
+           return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
                     
         
